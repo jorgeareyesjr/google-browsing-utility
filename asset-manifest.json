@@ -1,0 +1,22 @@
+{
+  "files": {
+    "main.css": "/google-browsing-utility/static/css/main.5f361e03.chunk.css",
+    "main.js": "/google-browsing-utility/static/js/main.e9cdc71b.chunk.js",
+    "main.js.map": "/google-browsing-utility/static/js/main.e9cdc71b.chunk.js.map",
+    "runtime-main.js": "/google-browsing-utility/static/js/runtime-main.4006a6d6.js",
+    "runtime-main.js.map": "/google-browsing-utility/static/js/runtime-main.4006a6d6.js.map",
+    "static/js/2.29e963e1.chunk.js": "/google-browsing-utility/static/js/2.29e963e1.chunk.js",
+    "static/js/2.29e963e1.chunk.js.map": "/google-browsing-utility/static/js/2.29e963e1.chunk.js.map",
+    "index.html": "/google-browsing-utility/index.html",
+    "precache-manifest.b05363cf594423a0b8a162ea3eac16ec.js": "/google-browsing-utility/precache-manifest.b05363cf594423a0b8a162ea3eac16ec.js",
+    "service-worker.js": "/google-browsing-utility/service-worker.js",
+    "static/css/main.5f361e03.chunk.css.map": "/google-browsing-utility/static/css/main.5f361e03.chunk.css.map",
+    "static/js/2.29e963e1.chunk.js.LICENSE.txt": "/google-browsing-utility/static/js/2.29e963e1.chunk.js.LICENSE.txt"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.4006a6d6.js",
+    "static/js/2.29e963e1.chunk.js",
+    "static/css/main.5f361e03.chunk.css",
+    "static/js/main.e9cdc71b.chunk.js"
+  ]
+}
