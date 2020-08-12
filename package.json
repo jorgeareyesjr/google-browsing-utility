@@ -2,7 +2,6 @@
   "name": "google-browsing-utility",
   "version": "0.1.0",
   "private": true,
-  "homepage": "google-browsing-utility/",
   "dependencies": {
     "@babel/core": "7.9.0",
     "@svgr/webpack": "4.3.3",
@@ -54,7 +53,7 @@
     "sass-loader": "8.0.2",
     "semver": "6.3.0",
     "style-loader": "0.23.1",
-    "terser-webpack-plugin": "2.3.5",
+    "terser-webpack-plugin": "^4.1.0",
     "ts-pnp": "1.1.6",
     "url-loader": "2.3.0",
     "webpack": "4.42.0",
@@ -65,7 +64,8 @@
   "scripts": {
     "start": "node scripts/start.js",
     "build": "node scripts/build.js",
-    "test": "node scripts/test.js"
+    "test": "node scripts/test.js",
+    "deploy": "npm run build && gh-pages -d build"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -136,5 +136,9 @@
     "presets": [
       "react-app"
     ]
-  }
+  },
+  "devDependencies": {
+    "gh-pages": "^3.1.0"
+  },
+  "homepage": "google-browsing-utility/"
 }
