@@ -1,4 +1,10 @@
 import React, { Fragment, useState, useEffect } from 'react';
+import GoogleSearch from './pageTypes/GoogleSearch/Search';
+import GoogleSearchResults from './pageTypes/GoogleSearch/Results';
+import GoogleFlightsSearch from './pageTypes/GoogleFlights/Search';
+import GoogleFlightsSelection from './pageTypes/GoogleFlights/Selection';
+import GoogleFlightsBooking from './pageTypes/GoogleFlights/Booking';
+import GoogleFlightsCheckout from './pageTypes/GoogleFlights/Checkout';
 // import './App.css';
 
 function App() {
@@ -8,11 +14,12 @@ function App() {
   const [ pageType, setPageType ] = useState();
   const [ DOMFlightDestination, setDOMFlightDestination ] = useState();
   const [ DOMFlightOrigin, setDOMFlightOrigin ] = useState();
+  const [ DOMBookingProvider, setDOMBookingProvider ] = useState();
   const [ DOMSearchInputTerm, setDOMSearchInputTerm ] = useState();
   const [ DOMSearchResults, setDOMSearchResults ] = useState();
   const [ DOMSelectedFlights, setDOMSelectedFlights ] = useState();
 
-  // NOTE: `useEffect` hook is invoked by the react framework - serves to add component state in functional components (instead of class components).
+  // NOTE: `useEffect` hooks are invoked by the react framework - serves to add state in functional components (instead of class components).
 
   // Effect to set the active `contextUrl` and `pageType`.
   useEffect(() => {
@@ -31,11 +38,11 @@ function App() {
     });
   }, [adapter]);
 
-  // Effect to set the active context page DOM data.
+  // Effect to set the active context page DOM data, based on `pageType`.
   useEffect(() => {
     let effectAborted = false;
 
-    if(!effectAborted ) {
+    if(!effectAborted) {
       if(pageType === 'GOOGLE_SEARCH') {
         const { DOMSearchInputTerm } = adapter;
 
@@ -51,7 +58,6 @@ function App() {
         setDOMFlightDestination(DOMFlightDestination);
         setDOMFlightOrigin(DOMFlightOrigin);
         setDOMSearchResults(DOMSearchResults);
-        
       } else if (pageType === 'GOOGLE_FLIGHTS_BOOKING') {
         const { DOMFlightDestination, DOMFlightOrigin, DOMSearchResults, DOMSelectedFlights } = adapter;
         
@@ -60,12 +66,12 @@ function App() {
         setDOMSearchResults(DOMSearchResults);
         setDOMSelectedFlights(DOMSelectedFlights);
       } else if (pageType === 'GOOGLE_FLIGHTS_CHECKOUT') {
-        // const { DOMFlightDestination, DOMFlightOrigin, DOMSearchResults, DOMSelectedFlights } = adapter;
+        const { DOMFlightDestination, DOMFlightOrigin, DOMSearchResults, DOMBookingProvider } = adapter;
         
-        // setDOMFlightDestination(DOMFlightDestination);
-        // setDOMFlightOrigin(DOMFlightOrigin);
-        // setDOMSearchResults(DOMSearchResults);
-        // setDOMSelectedFlights(DOMSelectedFlights);
+        setDOMFlightDestination(DOMFlightDestination);
+        setDOMFlightOrigin(DOMFlightOrigin);
+        setDOMSearchResults(DOMSearchResults);
+        setDOMBookingProvider(DOMBookingProvider);
       };
     };
   
@@ -77,113 +83,50 @@ function App() {
   // Render app markup, based on the active context `pageType`.
   if(pageType === 'GOOGLE_SEARCH') {
     return (
-      <Fragment>
-        <h1>Google's DEFAULT_SEARCH_ENGINE_PAGE</h1>
-        <p>Search Term: {DOMSearchInputTerm}</p>
-      </Fragment>
+      <GoogleSearch
+        inputTerm={DOMSearchInputTerm}
+      /> 
     );
   } else if(pageType === 'GOOGLE_SEARCH_RESULTS') {
-    const searchResults = DOMSearchResults ?
-    <ul>
-      <h1>Search Results</h1>
-      {
-        DOMSearchResults.map((result, i) => {
-          return (
-            <li key={i*i}>{result.firstChildHref}</li>
-          )
-        })
-      }
-    </ul> : 'Attempting to load the list of search results...';
-
     return (
-      <Fragment>
-        <h1>Google's DEFAULT_SEARCH_ENGINE_RESULTS_PAGE</h1>
-        <p>Search Term: {DOMSearchInputTerm}</p>
-        { searchResults }
-      </Fragment>
-    );
+      <GoogleSearchResults
+        inputTerm={DOMSearchInputTerm}
+        results={DOMSearchResults}
+      /> 
+    )
   } else if(pageType === 'GOOGLE_FLIGHTS_SEARCH') {
-    const popularDestinations = DOMSearchResults ?
-    <ul>
-      <h1>Popular Destinations</h1>
-      {
-        DOMSearchResults.map((result, i) => {
-          return (
-            <li key={i*i}>{result.textContent}</li>
-          )
-        })
-      }
-    </ul> : 'Attempting to load the list of popular travel destinations...';
-
     return (
-      <Fragment>
-        <h1>Google's FLIGHTS_SEARCH_ENGINE</h1>
-        <p>Origin: {DOMFlightOrigin}</p>
-        <p>Destination: {DOMFlightDestination}</p>
-        { popularDestinations }
-      </Fragment>
+      <GoogleFlightsSearch
+        origin={DOMFlightOrigin}
+        destination={DOMFlightDestination}
+        results={DOMSearchResults}
+      />
     );
   } else if(pageType === 'GOOGLE_FLIGHTS_SELECTION') {
-    const availableFlights = DOMSearchResults ?
-    <ul>
-      <h1>Available Flights</h1>
-        {
-        DOMSearchResults.map((result, i) => {
-          return (
-            <li key={i*i}>{result.textContent}</li>
-          )
-        })
-      }
-    </ul> : 'Attempting to load the list of available flights...';
-
-    return (
-      <Fragment>
-        <h1>Google's FLIGHTS_SELECTION_PAGE</h1>
-        <p>Origin: {DOMFlightOrigin}</p>
-        <p>Destination: {DOMFlightDestination}</p>
-        { availableFlights }
-      </Fragment>
-    );
+    return(
+      <GoogleFlightsSelection
+        origin={DOMFlightOrigin}
+        destination={DOMFlightDestination}
+        results={DOMSearchResults}
+      />
+    )
   } else if(pageType === "GOOGLE_FLIGHTS_BOOKING") {
-    const bookingOptions = DOMSearchResults ?
-    <ul>
-      <h1>Available Booking Otions</h1>
-        {
-        DOMSearchResults.map((result, i) => {
-          return (
-            <li key={i*i}>{result.textContent}</li>
-          )
-        })
-      }
-    </ul> : 'Attempting to load the list of available booking options...';
-
-    const selectedFlights = DOMSelectedFlights ?
-    <ul>
-      <h1>Selected Flights</h1>
-        {
-        DOMSelectedFlights.map((result, i) => {
-          return (
-            <li key={i*i}>{result.textContent}</li>
-          )
-        })
-      }
-    </ul> : 'Attempting to load the list of selected flights...';
-
     return (
-      <Fragment>
-        <h1>Google's FLIGHTS_BOOKING_PAGE</h1>
-        <p>Origin: {DOMFlightOrigin}</p>
-        <p>Destination: {DOMFlightDestination}</p>
-        { selectedFlights }
-        { bookingOptions }
-      </Fragment>
+      <GoogleFlightsBooking
+        origin={DOMFlightOrigin}
+        destination={DOMFlightDestination}
+        results={DOMSearchResults}
+        selectedFlights={DOMSelectedFlights}
+      />
     );
   } else if(pageType === "GOOGLE_FLIGHTS_CHECKOUT") {
-    // TODO
     return (
-      <Fragment>
-        <h1>Google's FLIGHTS_CHECKOUT_PAGE</h1>
-      </Fragment>
+      <GoogleFlightsCheckout
+        origin={DOMFlightOrigin}
+        destination={DOMFlightDestination}
+        results={DOMSearchResults}
+        bookingProvider={DOMBookingProvider}
+      />
     );
   } else {
     return (
